@@ -34,6 +34,7 @@ app.post('/updatePerson/:pId',(req,res)=>{
 app.get('/editPerson/:pId',(req,res)=>{
 
     let pId = req.params.pId;
+    console.log(pId)
 
     let person = data[pId];
 
