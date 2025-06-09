@@ -8,6 +8,20 @@ const app = express();
 app.set('view engine', 'ejs');
 app.use(express.urlencoded())
 
+
+app.get('/deleteData', (req,res)=>{
+    const id = req.query.id;
+    // console.log(id)
+
+    adminTbl.findByIdAndDelete(id).then((delData)=>{
+        console.log("Data deleted successfully...",delData);
+        return res.redirect('/');
+    }).catch((err)=>{
+        console.log(err);
+        return res.render('404');
+    })
+})
+
 app.post('/insertData',(req,res)=>{
 
     const {name, email,phone, gender, hobby, password, city} = req.body;
@@ -29,7 +43,16 @@ app.post('/insertData',(req,res)=>{
 })
 
 app.get('/',(req,res)=>{
-    return res.render('home')
+
+    adminTbl.find({}).then((allData)=>{
+        return res.render('home',{
+            record:allData
+        })
+    }).catch((err)=>{
+        console.log(err);
+        return res.render('404');
+    })
+   
 })
 
 

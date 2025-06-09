@@ -61,5 +61,40 @@
         </tr>
       </table>
     </form>
+
+
+<br><br><br>
+
+<table border="1" cellspacing="0" cellpadding="10">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Gender</th>
+      <th>Hobby</th>
+      <th>Password</th>
+      <th>City</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <% record.map((item)=>{ %>
+      <tr>
+        <td><%= item.name%></td>
+        <td><%= item.email%></td>
+        <td><%= item.phone%></td>
+        <td><%= item.gender%></td>
+        <td><%= item.hobby%></td>
+        <td><%= item.password%></td>
+        <td><%= item.city%></td>
+        <td>
+          <a href="/deleteData?id=<%= item.id %>"><button>Delete</button></a>
+        </td>
+      </tr>
+   <% }) %>
+  </tbody>
+</table>
   </body>
 </html>
