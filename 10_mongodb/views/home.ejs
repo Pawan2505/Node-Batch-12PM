@@ -8,7 +8,7 @@
   <body>
     <h1>Home Page</h1>
 
-    <form method="post" action="/insertData">
+    <form method="post" action="/insertData" enctype="multipart/form-data">
       <table border="1" cellspacing="0">
         <tr>
             <td><label>Name</label></td>
@@ -56,6 +56,10 @@
             </td>
         </tr>
         <tr>
+          <td>Image</td>
+          <td><input type="file" name="image"></td>
+        </tr>
+        <tr>
             <td></td>
             <td><input type="submit" value="Submit"></td>
         </tr>
@@ -75,6 +79,7 @@
       <th>Hobby</th>
       <th>Password</th>
       <th>City</th>
+      <th>Image</th>
       <th>Action</th>
     </tr>
   </thead>
@@ -89,6 +94,9 @@
         <td><%= item.hobby%></td>
         <td><%= item.password%></td>
         <td><%= item.city%></td>
+        <td>
+          <img src="<%= item.image%>" width="80px" height="80px" alt="">
+        </td>
         <td>
           <a href="/deleteData?id=<%= item.id %>"><button>Delete</button></a>
           <a href="/editData?id=<%= item.id %>"><button>Edit</button></a>

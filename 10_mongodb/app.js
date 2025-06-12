@@ -1,6 +1,9 @@
 const express = require("express");
 const db = require("./config/db");
 const adminTbl = require("./models/adminTbl");
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 const port = 8000;
 
 const app = express();
@@ -8,26 +11,25 @@ const app = express();
 app.set("view engine", "ejs");
 app.use(express.urlencoded());
 
-// app.post('/updateData',(req,res)=>{
-//   const id = req.query.id;
-//   const {name, email,phone, gender, hobby, password, city} = req.body;
-// adminTbl.findByIdAndUpdate(id,{
-//         name: name,
-//         email:email,
-//         phone:phone,
-//         gender:gender,
-//         hobby:hobby,
-//         password:password,
-//         city:city
-// }).then((success)=>{
-//     console.log("Data updated successfully",success);
-//     return res.redirect('/');
-// }).catch((err)=>{
-//     console.log(err);
-//     return res.render('404');
-// })
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// })
+
+// file upload start
+
+const fileStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
+})
+
+const Imageupload = multer({ storage: fileStorage }).single("image")
+
+
+// file upload end
+
 
 app.get("/editData", (req, res) => {
   const id = req.query.id;
@@ -59,31 +61,52 @@ app.get("/deleteData", (req, res) => {
       return res.render("404");
     });
 });
+app.post("/insertData", Imageupload, (req, res) => {
+  let editedId = req.body.editedId;
+  // console.log(editedId)
 
-app.post("/insertData", (req, res) => {
-  const editId = req.query.id;
   const { name, email, phone, gender, hobby, password, city } = req.body;
 
-  if (editId != null) {
-    adminTbl
-      .findByIdAndUpdate(editId, {
-        name: name,
-        email: email,
-        phone: phone,
-        gender: gender,
-        hobby: hobby,
-        password: password,
-        city: city,
-      })
-      .then((success) => {
-        console.log("Data updated successfully", success);
-        return res.redirect("/");
-      })
-      .catch((err) => {
-        console.log(err);
-        return res.render("404");
-      });
+  if (editedId) {
+    if (req.file) {
+      adminTbl.findById(editedId).then((oldImage) => {
+        fs.unlinkSync(oldImage.image);
+        let image = req.file.path;
+
+          adminTbl.findByIdAndUpdate(editedId, {
+              name: name,
+              email: email,
+              phone: phone,
+              gender: gender,
+              hobby: hobby,
+              password: password,
+              city: city,
+              image: image,
+            })
+            .then((success) => {
+              console.log("Record edited successfully...");
+              return res.redirect("/");
+            })
+            .catch((err) => {
+              console.log(err);
+              return false;
+            });
+        }).catch((err)=>{
+            console.log(err);
+            return false;
+        })
+        
+    } else {
+      console.log("old image");
+    }
   } else {
+    // console.log(req.file)
+
+    let image = "";
+    if (req.file) {
+      image = req.file.path;
+    }
+
     adminTbl.create({
       name: name,
       email: email,
@@ -92,10 +115,8 @@ app.post("/insertData", (req, res) => {
       hobby: hobby,
       password: password,
       city: city,
+      image: image,
     });
-
-    // console.log(req.body);
-
     return res.redirect("/");
   }
 });
