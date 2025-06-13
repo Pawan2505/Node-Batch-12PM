@@ -49,11 +49,11 @@ app.get("/editData", (req, res) => {
 app.get("/deleteData", (req, res) => {
   const id = req.query.id;
   // console.log(id)
-
   adminTbl
     .findByIdAndDelete(id)
     .then((delData) => {
       console.log("Data deleted successfully...", delData);
+      fs.unlinkSync(delData.image); 
       return res.redirect("/");
     })
     .catch((err) => {
@@ -62,16 +62,17 @@ app.get("/deleteData", (req, res) => {
     });
 });
 app.post("/insertData", Imageupload, (req, res) => {
-  let editedId = req.body.editedId;
+  let editedId = req.query.id;
   // console.log(editedId)
 
   const { name, email, phone, gender, hobby, password, city } = req.body;
 
   if (editedId) {
-    if (req.file) {
+    console.log(req.file);
+    if (req.file){
       adminTbl.findById(editedId).then((oldImage) => {
         fs.unlinkSync(oldImage.image);
-        let image = req.file.path;
+        let image = req.file.path; 
 
           adminTbl.findByIdAndUpdate(editedId, {
               name: name,
