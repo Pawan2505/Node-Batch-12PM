@@ -68,7 +68,7 @@ app.post("/insertData", Imageupload, (req, res) => {
   const { name, email, phone, gender, hobby, password, city } = req.body;
 
   if (editedId) {
-    console.log(req.file);
+    // console.log(req.file);
     if (req.file){
       adminTbl.findById(editedId).then((oldImage) => {
         fs.unlinkSync(oldImage.image);
@@ -98,7 +98,22 @@ app.post("/insertData", Imageupload, (req, res) => {
         })
         
     } else {
-      console.log("old image");
+      // console.log("old image");
+      adminTbl.findByIdAndUpdate(editedId, {
+              name: name,
+              email: email,
+              phone: phone,
+              gender: gender,
+              hobby: hobby,
+              password: password,
+              city: city,
+            }).then((success)=>{
+              console.log("Data updated successfully...");
+              return res.redirect('/');
+            }).catch((err)=>{
+              console.log(err)
+              return res.render('404')
+            })
     }
   } else {
     // console.log(req.file)
