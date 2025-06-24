@@ -31,7 +31,7 @@ const adminTbl=  mongoose.Schema({
     },
     image:{
         type:String,
-        required:false
+        required:true
     }
 })
 
