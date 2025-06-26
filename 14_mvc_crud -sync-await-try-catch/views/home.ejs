@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+  </head>
+  <body>
+    <h1>Home Page</h1>
+
+    <form method="post" action="/insertData" enctype="multipart/form-data">
+      <table border="1" cellspacing="0">
+        <tr>
+            <td><label>Name</label></td>
+            <td><input type="text" name="name"></td>
+        </tr>
+        <tr>
+            <td><label>Email</label></td>
+            <td><input type="email" name="email"></td>
+        </tr>
+        <tr>
+            <td><label>Phone</label></td>
+            <td><input type="number" name="phone"></td>
+        </tr>
+        <tr>
+            <td><label>Gender</label></td>
+            <td>
+                <input type="radio" value="male" name="gender">Male
+                <input type="radio" value="female" name="gender">Female
+            </td>
+        </tr>
+        <tr>
+            <td><label>Hobby</label></td>
+            <td>
+                <input type="checkbox" value="running" name="hobby">Running
+                <input type="checkbox" value="coading" name="hobby">Coading          
+                <input type="checkbox" value="gamming" name="hobby">Gamming 
+            </td>
+        </tr>
+         <tr>
+            <td><label>Password</label></td>
+            <td><input type="password" name="password"></td>
+        </tr>
+         <tr>
+            <td><label>City</label></td>
+            <td>
+               <select name="city">
+                <option value="">--select option--</option>
+              <%  let cities = ["Lucknow","Delhi","Kota","Ahemdabad","Amreli"]; %>
+
+                   <% cities.map((city)=>{ %>
+                        <option value="<%= city %>"><%= city %></option>
+                   <% }) %>
+
+               </select>
+            </td>
+        </tr>
+        <tr>
+          <td>Image</td>
+          <td><input type="file" name="image"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Submit"></td>
+        </tr>
+      </table>
+    </form>
+
+
+<br><br><br>
+
+<table border="1" cellspacing="0" cellpadding="10">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Gender</th>
+      <th>Hobby</th>
+      <th>Password</th>
+      <th>City</th>
+      <th>Image</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <% record.map((item)=>{ %>
+      <tr>
+        <td><%= item.name%></td>
+        <td><%= item.email%></td>
+        <td><%= item.phone%></td>
+        <td><%= item.gender%></td>
+        <td><%= item.hobby%></td>
+        <td><%= item.password%></td>
+        <td><%= item.city%></td>
+        <td>
+          <img src="<%= item.image%>" width="80px" height="80px" alt="">
+        </td>
+        <td>
+          <a href="/deleteData?id=<%= item.id %>"><button>Delete</button></a>
+          <a href="/editData?id=<%= item.id %>"><button>Edit</button></a>
+        </td>
+      </tr>
+   <% }) %>
+  </tbody>
+</table>
+
+  </body>
+</html>
