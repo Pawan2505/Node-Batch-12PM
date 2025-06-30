@@ -20,10 +20,11 @@
   </div>
 
   <div class="container-fluid">
+
     <div class="row">
       <div class="col-md-6">
         <div class="card">
-          <form class="form-horizontal">
+          <form class="form-horizontal" method="post" action="/insertAdminData" enctype="multipart/form-data">
             <div class="card-body">
               <h4 class="card-title">Personal Info</h4>
               <div class="form-group row">
@@ -34,6 +35,7 @@
                 >
                 <div class="col-sm-9">
                   <input
+                    name="fname"
                     type="text"
                     class="form-control"
                     id="fname"
@@ -49,6 +51,7 @@
                 >
                 <div class="col-sm-9">
                   <input
+                    name="lname"
                     type="text"
                     class="form-control"
                     id="lname"
@@ -64,116 +67,113 @@
                 >
                 <div class="col-sm-9">
                   <input
-                    name="email"
                     type="email"
                     class="form-control"
-                    id="lname"
+                    id="email"
+                    name="email"
                     placeholder="Enter Email Here"
                   />
                 </div>
               </div>
-
-              <div class="form-group row">
-                <label class="col-md-3">Select Gender</label>
-                <div class="col-md-9">
-                  <div class="form-check">
-                    <input
-                      type="radio"
-                      class="form-check-input"
-                      id="customControlValidation1"
-                      name="gender"
-                      value="male"
-                      required
-                    />
-                    <label
-                      class="form-check-label mb-0"
-                      for="customControlValidation1"
-                      >Male</label
-                    >
-                  </div>
-                  <div class="form-check">
-                    <input
-                      type="radio"
-                      class="form-check-input"
-                      id="customControlValidation2"
-                      name="gender"
-                      value="female"
-                      required
-                    />
-                    <label
-                      class="form-check-label mb-0"
-                      for="customControlValidation2"
-                      >Female</label
-                    >
-                  </div>
-                </div>
-              </div>
-
               <div class="form-group row">
                 <label
-                  for="lname"
+                  for="password"
                   class="col-sm-3 text-end control-label col-form-label"
                   >Password</label
                 >
-
                 <div class="col-sm-9">
                   <input
                     type="password"
                     class="form-control"
-                    id="lname"
+                    id="password"
+                    name="password"
                     placeholder="Password Here"
                   />
                 </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-md-3">Hobby</label>
-                <div class="col-md-9">
-                  <div class="form-check mr-sm-2">
-                    <input
-                      name="hobby[]"
-                      value="running"
-                      type="checkbox"
-                      class="form-check-input"
-                      id="customControlAutosizing1"
-                    />
-                    <label
-                      class="form-check-label mb-0"
-                      for="customControlAutosizing1"
-                      >Running</label
-                    >
-                  </div>
-                  <div class="form-check mr-sm-2">
-                    <input
-                      name="hobby[]"
-                      value="coading"
-                      type="checkbox"
-                      class="form-check-input"
-                      id="customControlAutosizing2"
-                    />
-                    <label
-                      class="form-check-label mb-0"
-                      for="customControlAutosizing2"
-                      >Coading</label
-                    >
-                  </div>
-                  <div class="form-check mr-sm-2">
-                    <input
-                      name="hobby[]"
-                      value="gamming"
-                      type="checkbox"
-                      class="form-check-input"
-                      id="customControlAutosizing3"
-                    />
-                    <label
-                      class="form-check-label mb-0"
-                      for="customControlAutosizing3"
-                      >Gamming</label
-                    >
+                <div class="form-group row">
+                  <label class="col-md-3">Select Gender</label>
+                  <div class="col-md-9">
+                    <div class="form-check">
+                      <input
+                        type="radio"
+                        class="form-check-input"
+                        id="customControlValidation1"
+                        name="gender"
+                        value="male"
+                        required
+                      />
+                      <label
+                        class="form-check-label mb-0"
+                        for="customControlValidation1"
+                        >Male</label
+                      >
+                    </div>
+                    <div class="form-check">
+                      <input
+                        type="radio"
+                        class="form-check-input"
+                        id="customControlValidation2"
+                        name="gender"
+                        value="female"
+                        required
+                      />
+                      <label
+                        class="form-check-label mb-0"
+                        for="customControlValidation2"
+                        >Female</label
+                      >
+                    </div>
+                 
                   </div>
                 </div>
-              </div>
-
-              <div class="form-group row">
+                <div class="form-group row">
+                  <label class="col-md-3">Hobby</label>
+                  <div class="col-md-9">
+                    <div class="form-check mr-sm-2">
+                      <input
+                      name="hobby[]"
+                        type="checkbox"
+                        class="form-check-input"
+                        id="customControlAutosizing1"
+                        value="reading"
+                      />
+                      <label
+                        class="form-check-label mb-0"
+                        for="customControlAutosizing1"
+                        >Reading</label
+                      >
+                    </div>
+                    <div class="form-check mr-sm-2">
+                      <input
+                      name="hobby[]"
+                      value="cycling"
+                        type="checkbox"
+                        class="form-check-input"
+                        id="customControlAutosizing2"
+                      />
+                      <label
+                        class="form-check-label mb-0"
+                        for="customControlAutosizing2"
+                        >Cycling</label
+                      >
+                    </div>
+                    <div class="form-check mr-sm-2">
+                      <input
+                      name="hobby[]"
+                      value="adventure"
+                        type="checkbox"
+                        class="form-check-input"
+                        id="customControlAutosizing3"
+                      />
+                      <label
+                        class="form-check-label mb-0"
+                        for="customControlAutosizing3"
+                        >Adventure</label
+                      >
+                    </div>
+                  </div>
+                </div>
+                   <div class="form-group row">
                 <label
                   for="cono1"
                   class="col-sm-3 text-end control-label col-form-label"
@@ -183,36 +183,40 @@
                   <textarea class="form-control"></textarea>
                 </div>
               </div>
-              <div class="form-group row">
-                <label class="col-md-3">File Upload</label>
-                <div class="col-md-9">
-                  <div class="custom-file">
-                    <input
-                      type="file"
-                      class="custom-file-input"
-                      id="validatedCustomFile"
-                      required
-                    />
-                    <label class="custom-file-label" for="validatedCustomFile"
-                      >Choose file...</label
-                    >
-                    <div class="invalid-feedback">
-                      Example invalid custom file feedback
+                <div class="form-group row">
+                  <label class="col-md-3">File Upload</label>
+                  <div class="col-md-9">
+                    <div class="custom-file">
+                      <input
+                        type="file"
+                        class="custom-file-input"
+                        id="validatedCustomFile"
+                        name="avatar"
+                        required
+                      />
+                   
+                      <div class="invalid-feedback">
+                        Example invalid custom file feedback
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+     
             </div>
             <div class="border-top">
               <div class="card-body">
-                <button type="button" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-primary">Add Admin</button>
               </div>
             </div>
           </form>
         </div>
+   
       </div>
-    </div>
-  </div>
 
-  <%- include("footer") %>
+    </div>
+    
+
+  </div>
 </div>
+  <%- include("footer")%>
