@@ -9,3 +9,6 @@ module.exports.add_admin = (req,res)=>{
 module.exports.view_admin = (req,res)=>{
     return res.render('view_admin')
 }
+module.exports.insertData = (req,res)=>{
+    return res.redirect("");
+}
