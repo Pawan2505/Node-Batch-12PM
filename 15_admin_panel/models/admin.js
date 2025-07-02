@@ -1,27 +1,28 @@
 const mongoose = require('mongoose');
-const multer = require('multer')
+
+const multer = require('multer');
+
 const path = require('path');
 
-
-const imgPath = "/uploads/AdminImage";
+const imagePath = '/uploads/AdminImage';
 
 
 const AdminSchema = mongoose.Schema({
     name:{
         type:String,
-        required:true,
+        required:true
     },
     email:{
         type:String,
-        required:true
+        required:true,
     },
     password:{
         type:String,
         required:true,
     },
-    Gender:{
+    gender:{
         type:String,
-        required:true
+        required:true,
     },
     hobby:{
         type:Array,
@@ -29,29 +30,26 @@ const AdminSchema = mongoose.Schema({
     },
     description:{
         type:String,
-        required:true
+        required:true,
     },
     avatar:{
         type:String,
-        required:false,
+        required:true
     }
-})
-
+});
 
 const Filestorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname,"..",imgPath))
+    cb(null, path.join(__dirname,"..",imagePath))
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-    cb(null, file.fieldname + '-' + uniqueSuffix)
+    cb(null, file.fieldname + '-' + Date.now())
   }
 })
 
-AdminSchema.statics.upload = multer({ storage: Filestorage }).single("avatar");
+AdminSchema.statics.upload = multer({ storage: Filestorage }).single('avatar');
+AdminSchema.statics.adPath = imagePath;
 
-AdminSchema.statics.adPath = imgPath;
+const Admin = mongoose.model('Admin',AdminSchema);
 
-const admin = mongoose.model('admin',AdminSchema)
-
-module.exports = admin;
+module.exports = Admin;
