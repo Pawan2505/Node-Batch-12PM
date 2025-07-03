@@ -117,7 +117,7 @@ module.exports.updateData = async (req, res) => {
       }
 
       // Update with new avatar path
-      req.body.avatar = Admin.adPath + "/" + req.file.filename;
+      req.body.avatar = Admin.adPath + "/" + req.file.filen;
     } else {
       // Keep the old avatar
       req.body.avatar = oldAdmin.avatar;

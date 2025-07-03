@@ -43,26 +43,40 @@
                       <th scope="col">Action</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>Mark</td>
-                      <td>Otto</td>
-                      <td>@mdo</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>Jacob</td>
-                      <td>Thornton</td>
-                      <td>@fat</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td>Larry</td>
-                      <td>the Bird</td>
-                      <td>@twitter</td>
-                    </tr>
-                  </tbody>
+                 <tbody>
+              <% adminRecord.forEach((record, index) => { %>
+              <tr>
+                <th scope="row"><%= index + 1 %></th>
+                <td><%= record.name %></td>
+                <td><%= record.email %></td>
+                <td><%= record.password %></td>
+                <td><%= record.gender %></td>
+                <td><%= record.hobby %></td>
+                <td><%= record.description %></td>
+                <td>
+                
+                  <img
+                    src="<%= record.avatar %>"
+                    alt="Image"
+                    style="width: 50px; height: 50px"
+                  />
+                 
+                </td>
+                <td>
+                  <a
+                    href="/editAdmin/<%= record._id %>"
+                
+                    ><i class="far fa-edit"></i></a
+                  >
+                  <a
+                    href="/deleteAdmin/<%= record._id %>"
+                    
+                    ><i class="fas fa-trash-alt"></i></a
+                  >
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
                 </table>
               </div>
               
