@@ -2,11 +2,50 @@ const Admin = require("../models/admin");
 const path = require("path");
 const fs = require("fs");
 
+
+
+module.exports.checkLogin = async(req,res)=>{
+     try{
+      console.log("Checking login credentials...");
+      let checkEmail = await Admin.findOne({ email: req.body.email });
+      console.log(checkEmail);
+      if(!checkEmail) {
+        console.log("Email not found");
+        return res.redirect("back");
+      } else {  
+        console.log("Email found:", checkEmail.email);
+        // Check if password matches
+        if (checkEmail.password === req.body.password) {
+          console.log("Password matched");
+          // Set cookie with admin ID
+          res.cookie("adminId", checkEmail._id, { maxAge: 24 * 60 * 60 * 1000 }); // 1 day expiry
+          return res.redirect("/dashbord");
+        }
+        else {
+          console.log("Password did not match");
+          return res.redirect("back");
+        }
+      }
+
+    }catch(error){
+      console.log("Error in checkLogin:", error.message);
+      return res.redirect("back");
+    }
+}
+
+
+module.exports.SignIn = (req, res)=>{
+
+  return res.render("SignIn")
+}
+
 module.exports.dashbord = (req, res) => {
+  res.cookie('data','Pawan')
   return res.render("dashboard");
 };
 
 module.exports.add_admin = (req, res) => {
+  console.log(req.cookies);
   return res.render("add_admin");
 };
 
