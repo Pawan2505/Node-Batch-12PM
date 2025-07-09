@@ -2,7 +2,10 @@ const Admin = require("../models/admin");
 const path = require("path");
 const fs = require("fs");
 
-
+module.exports.logout = (req,res)=>{
+  res.clearCookie("adminId");
+  return res.render('SignIn');
+}
 
 module.exports.checkLogin = async(req,res)=>{
      try{
@@ -18,8 +21,8 @@ module.exports.checkLogin = async(req,res)=>{
         if (checkEmail.password === req.body.password) {
           console.log("Password matched");
           // Set cookie with admin ID
-          res.cookie("adminId", checkEmail._id, { maxAge: 24 * 60 * 60 * 1000 }); // 1 day expiry
-          return res.redirect("/dashbord");
+          res.cookie("adminId", checkEmail, { maxAge: 24 * 60 * 60 * 1000 }); // 1 day expiry
+          return res.redirect("/dashboard");
         }
         else {
           console.log("Password did not match");
@@ -39,20 +42,23 @@ module.exports.SignIn = (req, res)=>{
   return res.render("SignIn")
 }
 
-module.exports.dashbord = (req, res) => {
-  res.cookie('data','Pawan')
-  return res.render("dashboard");
+module.exports.dashboard = (req, res) => {
+  // res.cookie('data','Pawan')
+   let singleAdmin = req.cookies.adminId;
+  return res.render("dashboard",{singleAdmin});
 };
 
 module.exports.add_admin = (req, res) => {
   console.log(req.cookies);
-  return res.render("add_admin");
+    let singleAdmin = req.cookies.adminId;
+  return res.render("add_admin",{singleAdmin});
 };
 
 module.exports.view_admin = async (req, res) => {
   try {
     const admins = await Admin.find({});
-    return res.render("view_admin", { adminRecord: admins });
+      let singleAdmin = req.cookies.adminId;
+    return res.render("view_admin", { adminRecord: admins,singleAdmin });
   } catch (err) {
     console.log("Error fetching admins:", err);
     return res.redirect("back");
