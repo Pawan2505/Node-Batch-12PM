@@ -2,6 +2,51 @@ const Admin = require("../models/admin");
 const path = require("path");
 const fs = require("fs");
 
+
+module.exports.changePassword = (req, res) => {
+  try {
+    console.log("Rendering change password page...");
+    let singleAdmin = req.cookies.adminId;
+    if (!singleAdmin) {
+      return res.redirect("/");
+    }
+
+    return res.render("changePassword", { singleAdmin });
+  } catch (error) {
+    console.log("Error in changePassword:", error.message);
+    return res.redirect("back");
+  }
+};
+
+module.exports.checkChangePassword = async (req, res) => {
+  try {
+    let oldPass = req.cookies.adminId.password;
+
+    if (oldPass == req.body.currentPass) {
+      if (req.body.currentPass != req.body.newPass) {
+        if (req.body.newPass == req.body.confirmPass) {
+          let adminId = req.cookies.adminId._id;
+          await Admin.findByIdAndUpdate(adminId, {
+            password: req.body.newPass,
+          });
+          res.clearCookie("adminId");
+          return res.redirect("/");
+        } else {
+          console.log("New password and confirm password do not match");
+          return res.redirect("/changePassword");
+        }
+      } else {
+        console.log("current password cannot be the same as old password");
+        return res.redirect("back");
+      }
+    }
+  } catch (error) {
+    console.log("Error in checkChangePassword:", error.message);
+    return res.redirect("back");
+  }
+};
+
+
 module.exports.logout = (req,res)=>{
   res.clearCookie("adminId");
   return res.render('SignIn');

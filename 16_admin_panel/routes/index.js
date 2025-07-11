@@ -10,11 +10,17 @@ console.log("Routing...")
 
 const adminCtl = require('../controllers/adminController')
 
+routes.post('/checkChangePassword',checkAdminAuth,adminCtl.checkChangePassword)
+
+routes.get('/changePassword',checkAdminAuth,adminCtl.changePassword)
+
 routes.get('/logout', adminCtl.logout)
 
 routes.post("/checkLogin",adminCtl.checkLogin)
 
 routes.get('/',adminCtl.SignIn);
+
+
 
 
 routes.get('/dashboard',checkAdminAuth,adminCtl.dashboard);
