@@ -1,7 +1,7 @@
 const Admin = require("../models/admin");
 const path = require("path");
 const fs = require("fs");
-
+const nodemailer = require("nodemailer");
 
 module.exports.changePassword = (req, res) => {
   try {
@@ -222,4 +222,114 @@ module.exports.updateData = async (req, res) => {
     return res.redirect("back");
   }
 };
+
+
+
+module.exports.verifyEmail = (req, res) => {
+  try {
+    return res.render("forget_password/verifyEmail");
+  } catch (error) {
+    console.log("Error rendering verifyEmail:", error.message);
+    return res.redirect("back");
+  }
+};
+
+module.exports.checkemailforget = async (req, res) => {
+  try {
+    // console.log(req.body);
+    let checkEmail = await Admin.findOne({ email: req.body.email });
+    if (checkEmail) {
+      const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+          user: "pawanaktu@gmail.com",
+          pass: "tgxcbsrywypdamcl",
+        },
+      });
+
+      let OTP = Math.floor(100000 + Math.random() * 900000);
+      console.log("Generated OTP:", OTP);
+      res.cookie("adminOtp", OTP, { maxAge: 5 * 60 * 1000 }); // Store OTP in cookie for 5 minutes
+      res.cookie("adminEmail", req.body.email, { maxAge: 5 * 60 * 1000 }); // Store email in cookie for 5 minutes
+      const info = await transporter.sendMail({
+        from: "<pawanaktu@gmail.com>",
+        to: req.body.email,
+        subject: "OTP for Password Reset",
+        text: "Your OTP", // plain‑text body
+        html: `<b>Your OTP is Below : ${OTP}</b>
+        <p>This is your OTP for password reset</p>`, // HTML body
+      });
+
+      if (info.messageId) {
+        console.log("Email sent successfully:", info.messageId);
+        return res.redirect("/otp_page");
+      } else {
+        console.log("Failed to send email");
+        return res.redirect("back");
+      }
+    }
+  } catch (error) {
+    console.log("Error in checkemailforget:", error.message);
+    return res.redirect("back");
+  }
+};
+
+module.exports.otp_page = async (req, res) => {
+  try {
+    return res.render("forget_password/otp_page");
+  } catch (error) {
+    console.log("Error in otp_page:", error.message);
+    return res.redirect("back");
+  }
+};
+
+module.exports.verifyOTP = async (req, res) => {
+  try {
+    console.log("Verifying OTP:", req.body.adminOtp);
+    console.log("Stored OTP:", req.cookies.adminOtp);
+    if (req.body.adminOtp === req.cookies.adminOtp) {
+      console.log("OTP verified successfully");
+      return res.redirect("/addNewPassword");
+    } else {
+      console.log("Invalid OTP");
+      return res.redirect("back");
+    }
+  } catch (error) {
+    console.log("Error in verifyOTP:", error.message);
+    return res.redirect("back");
+  }
+};
+
+module.exports.addNewPassword = async (req, res) => {
+  try {
+    return res.render("forget_password/addNewPassword");
+  } catch (error) {
+    console.log("Error in addNewPassword:", error.message);
+    return res.redirect("back");
+  }
+};
+
+
+module.exports.updatePassword = async (req, res) => {
+  try{
+console.log(req.body);
+if(req.body.npass === req.body.cpass){
+  let email = req.cookies.adminEmail;
+  console.log("Updating password for email:", email); 
+  await Admin.findOneAndUpdate({ email: email }, 
+    { password: req.body.npass }
+  );
+  console.log("Password updated successfully");
+  res.clearCookie("adminOtp");  
+  res.clearCookie("adminEmail");
+  return res.redirect("/");
+}
+} catch (error) {
+  console.log("Error in updatePassword:", error.message);
+  return res.redirect("back");
+}
+}
+
 

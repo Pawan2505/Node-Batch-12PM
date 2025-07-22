@@ -10,6 +10,21 @@ console.log("Routing...")
 
 const adminCtl = require('../controllers/adminController')
 
+
+
+// forget password routing
+
+
+routes.get("/verifyEmail", adminCtl.verifyEmail)
+routes.post("/checkemailforget", adminCtl.checkemailforget)
+routes.get("/otp_page", adminCtl.otp_page)
+routes.post("/verifyOTP", adminCtl.verifyOTP)
+routes.get("/addNewPassword", adminCtl.addNewPassword)
+routes.post("/updatePassword", adminCtl.updatePassword) 
+
+
+
+
 routes.post('/checkChangePassword',checkAdminAuth,adminCtl.checkChangePassword)
 
 routes.get('/changePassword',checkAdminAuth,adminCtl.changePassword)
