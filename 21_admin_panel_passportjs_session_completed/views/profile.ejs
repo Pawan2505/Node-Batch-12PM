@@ -1,0 +1,66 @@
+<%- include("header")%>
+
+<div class="page-wrapper">
+  <div class="page-breadcrumb">
+    <div class="row">
+      <div class="col-12 d-flex no-block align-items-center">
+        <h4 class="page-title">My Profile</h4>
+        <div class="ms-auto text-end">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Library
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card card-body printableArea">
+          <h3>
+            <b><%= singleAdmin.name %></b>
+
+            <a
+              href="/editAdmin/<%= singleAdmin._id %>"
+              class="btn btn-sm btn-success btn-rounded text-white"
+              >Edit</a
+            >
+          </h3>
+          <hr />
+          <div class="row">
+            <div class="col-md-12">
+              <div class="pull-left">
+                <address>
+                  <h3>
+                    <img
+                      src="<%= singleAdmin.avatar %>"
+                      height="100"
+                      width="100"
+                      style="border-radius: 50%"
+                      alt=""
+                    />
+                  </h3>
+
+                  <p class="text-muted ms-1">
+                    <b>Email:</b> <%= singleAdmin.email %> <br />
+                    <b>Gender:</b> <%= singleAdmin.gender %> <br />
+                    <b>Hobby:</b> <%= singleAdmin.hobby %> <br />
+                    <b>About:</b> <%= singleAdmin.description %> <br />
+                  </p>
+                </address>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include("footer")%>
+  </div>
+</div>
