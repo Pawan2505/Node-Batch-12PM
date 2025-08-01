@@ -1,0 +1,151 @@
+<%- include("header")%>
+
+<div class="page-wrapper">
+  <div class="page-breadcrumb">
+    <div class="row">
+      <div class="col-12 d-flex no-block align-items-center">
+        <h4 class="page-title">Edit Admin</h4>
+        <div class="ms-auto text-end">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Edit Admin
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    
+        <% if(locals.flash.success && locals.flash.success.length > 0){%>
+
+        <div class="alert alert-success"><%= locals.flash.success %></div>
+
+        <% } %>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <form class="form-horizontal" method="post" action="/updateAdminData/<%= adminData._id %>" enctype="multipart/form-data">
+            <div class="card-body">
+              <h4 class="card-title">Update Info</h4>
+
+              <!-- First Name -->
+              <div class="form-group row">
+                <label for="fname" class="col-sm-3 text-end control-label col-form-label">First Name</label>
+                <div class="col-sm-9">
+                  <input name="fname" type="text" class="form-control" id="fname" value="<%= adminData.name.split(' ')[0] %>" />
+                </div>
+              </div>
+
+              <!-- Last Name -->
+              <div class="form-group row">
+                <label for="lname" class="col-sm-3 text-end control-label col-form-label">Last Name</label>
+                <div class="col-sm-9">
+                  <input name="lname" type="text" class="form-control" id="lname" value="<%= adminData.name.split(' ')[1] %>" />
+                </div>
+              </div>
+
+              <!-- Email -->
+              <div class="form-group row">
+                <label for="email" class="col-sm-3 text-end control-label col-form-label">Email</label>
+                <div class="col-sm-9">
+                  <input type="email" class="form-control" id="email" name="email" value="<%= adminData.email %>" />
+                </div>
+              </div>
+
+              <!-- Password -->
+              <div class="form-group row">
+                <label for="password" class="col-sm-3 text-end control-label col-form-label">Password</label>
+                <div class="col-sm-9">
+                  <input type="password" class="form-control" id="password" name="password" value="<%= adminData.password %>" />
+                </div>
+              </div>
+
+              <!-- Gender -->
+              <div class="form-group row">
+                <label class="col-sm-3 text-end control-label col-form-label">Gender</label>
+                <div class="col-sm-9">
+                  <div class="form-check">
+                    <input type="radio" class="form-check-input" id="male" name="gender" value="male" <%= adminData.gender === "male" ? "checked" : "" %> />
+                    <label class="form-check-label mb-0" for="male">Male</label>
+                  </div>
+                  <div class="form-check">
+                    <input type="radio" class="form-check-input" id="female" name="gender" value="female" <%= adminData.gender === "female" ? "checked" : "" %> />
+                    <label class="form-check-label mb-0" for="female">Female</label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Hobby -->
+              <div class="form-group row">
+                <label class="col-sm-3 text-end control-label col-form-label">Hobby</label>
+                <div class="col-sm-9">
+                  <% const hobbies = adminData.hobby; %>
+                  <div class="form-check mr-sm-2">
+                    <input name="hobby[]" type="checkbox" class="form-check-input" value="reading" id="hobby1" <%= hobbies.includes("reading") ? "checked" : "" %> />
+                    <label class="form-check-label mb-0" for="hobby1">Reading</label>
+                  </div>
+                  <div class="form-check mr-sm-2">
+                    <input name="hobby[]" type="checkbox" class="form-check-input" value="cycling" id="hobby2" <%= hobbies.includes("cycling") ? "checked" : "" %> />
+                    <label class="form-check-label mb-0" for="hobby2">Cycling</label>
+                  </div>
+                  <div class="form-check mr-sm-2">
+                    <input name="hobby[]" type="checkbox" class="form-check-input" value="adventure" id="hobby3" <%= hobbies.includes("adventure") ? "checked" : "" %> />
+                    <label class="form-check-label mb-0" for="hobby3">Adventure</label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Description -->
+              <div class="form-group row">
+                <label for="description" class="col-sm-3 text-end control-label col-form-label">Message</label>
+                <div class="col-sm-9">
+                  <textarea class="form-control" id="description" name="description" placeholder="Enter Description"><%= adminData.description %></textarea>
+                </div>
+              </div>
+
+              <!-- File Upload -->
+              <div class="form-group row">
+                <label class="col-sm-3 text-end control-label col-form-label">File Upload</label>
+                <div class="col-sm-9">
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="validatedCustomFile" name="avatar" />
+                    <label class="custom-file-label" for="validatedCustomFile">Choose file</label>
+                    <% if (adminData.avatar) { %>
+                      <img src="<%= adminData.avatar %>" style="height: 50px; margin-top: 10px;" />
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="border-top">
+              <div class="card-body">
+                
+                <button type="submit" class="btn btn-success">Update Admin</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include("footer")%>
+
+  <!-- <script>
+   <% if(locals.flash.success && locals.flash.success.length > 0) { %>
+      Swal.fire({
+        title: "<%= locals.flash.success%>",
+        text: "Your action was successful!",
+        icon: "success",
+        confirmButtonText: "OK"
+      });
+    <% } %>
+
+  </script> -->
